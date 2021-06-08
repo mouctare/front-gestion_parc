@@ -1,38 +1,44 @@
-.App {
-  text-align: center;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Indie Flower", cursive;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.site {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: -140px;
 }
 
-.App-link {
-  color: #61dafb;
+footer,
+.minSite {
+  height: 140px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.imgFB,
+.imgTwitter {
+  height: 75px;
+}
+.imgYoutube {
+  height: 25px;
+}
+
+@media only screen and (max-width: 720px) {
+  .site {
+    min-height: 100vh;
+    margin-bottom: -90px;
   }
-  to {
-    transform: rotate(360deg);
+  footer,
+  .minSite {
+    height: 70px;
+  }
+  .imgFB,
+  .imgTwitter {
+    height: 40px;
+  }
+  .imgYoutube {
+    height: 20px;
   }
 }
