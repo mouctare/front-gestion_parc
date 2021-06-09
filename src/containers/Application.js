@@ -15,19 +15,27 @@ class Application extends Component {
           })
     }
 
+    handleSelectionFamille = (idFamille) =>{
+        console.log("Demande de ", idFamille);
+    }
+
+    handleSelectionContinent = (idContinent) =>{
+        console.log("Demande de ", idContinent);
+    }
+
     render() {
         return (
             <>
             <TitreH1 bgColor="bg-success">Les animaux du parc</TitreH1>
           
-            <div className="container">
+            <div className="container-fluid">
             <div className="row no-gutters">
                 {
                     this.state.animaux && 
                     this.state.animaux.map(animal =>{
                         return(
                         <div className="col-12 col-md-6 col-xl-4" key={animal.id}>
-                        <Animal {...animal} />
+                        <Animal {...animal}  filtreFamille = {this.handleSelectionFamille} filtreContinent = {this.handleSelectionContinent}/>
                         </div>
                         )
                     })
