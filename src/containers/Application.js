@@ -8,7 +8,9 @@ class Application extends Component {
     state = {
         animaux : null,
         filtreFamille : null,
-        filtreContinent : null
+        filtreContinent : null,
+        listeFamilles : null,
+        listeContinents : null
 
     }
 
@@ -23,6 +25,16 @@ class Application extends Component {
     }
     componentDidMount = () => {
         this.loadData();
+
+        axios.get(`http://localhost/SERVEURANIMAUX/client/continents`)
+        .then(response =>{
+           this.setState({listeContinents:Object.values(response.data)});
+        })
+
+        axios.get(`http://localhost/SERVEURANIMAUX/client/familles`)
+        .then(response =>{
+          this.setState({listeFamilles:Object.values(response.data)});
+        })
     }
 
     componentDidUpdate = (oldProps, oldState) => {
@@ -31,40 +43,54 @@ class Application extends Component {
             this.loadData();
         }
     }
-
-    handleSelectionFamille = (idFamille) =>{
-      //  console.log("Demande de ", idFamille);
-        this.setState({filtreFamille:idFamille});
-       
+    handleSelectionFamille = (idFamille) => {
+        if(idFamille === "-1") this.handleResetFiltreFamille() 
+        else this.setState({filtreFamille : idFamille});
     }
 
-    handleSelectionContinent = (idContinent) =>{
-       // console.log("Demande de ", idContinent);
-        this.setState({filtreContinent:idContinent});
-        
+    handleSelectionContinent = (idContinent) => {
+        if(idContinent === "-1") this.handleResetFiltreContinent()
+        else this.setState({filtreContinent : idContinent});
     }
-
+    
     handleResetFiltreFamille = () => {
         this.setState({filtreFamille:null})
-
     }
     handleResetFiltreContinent = () => {
         this.setState({filtreContinent:null})
-
     }
 
     render() {
         return (
             <>
+            
             <TitreH1 bgColor="bg-success">Les animaux du parc</TitreH1>
+                <div className="container-Fluid">
+                    <span>Filtres : </span>
+                    <select onChange={(event) => this.handleSelectionFamille(event.target.value)}>
+                        <option value="-1" selected={this.state.filtreFamille === null && "selected"}>Familles</option>
+                        {
+                            this.state.listeFamilles && this.state.listeFamilles.map(famille => {
+                                return <option 
+                                    value={famille.famille_id}
+                                    selected={this.state.filtreFamille === famille.famille_id && "selected"}
+                                    >{famille.famille_libelle}</option>
+                            })
+                        }
+                    </select>
+                    <select onChange={(event) => this.handleSelectionContinent(event.target.value)}>
+                        <option value="-1" selected={this.state.filtreContinent=== null && "selected"}>Continents</option>
+                        {
+                            this.state.listeContinents && this.state.listeContinents.map(continent => {
+                                return <option 
+                                    value={continent.continent_id}
+                                    selected={this.state.filtreContinent=== continent.continent_id && "selected"}
+                                    >{continent.continent_libelle}</option>
+                            })
+                        }
+                    </select>
 
-            {
-
-             (this.state.filtreFamille || this.state.filtreContinent) && <span>Filtres : </span>
-
-            }
-
-            {
+                  {
                 this.state.filtreFamille &&
                 <Button
                     typeBtn="btn-secondary"
@@ -76,6 +102,7 @@ class Application extends Component {
                     </svg>
                 </Button>
             }
+
             {
                 this.state.filtreContinent &&
                 <Button 
@@ -88,6 +115,9 @@ class Application extends Component {
                     </Button>
             }
           
+              </div>
+
+         
             <div className="container-fluid">
             <div className="row no-gutters">
                 {
